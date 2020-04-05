@@ -132,11 +132,11 @@ form > hr {
   width: 8rem;
 }
 
-.articles-list {
+.stories-list {
   margin: 20px 5px;
 }
 
-.articles-list > li {
+.stories-list > li {
   color: gray;
   font-size: 0.8rem;
   margin: 10px 0;
@@ -159,35 +159,35 @@ form > hr {
   color: darkblue;
 }
 
-.article-link > strong {
+.story-link > strong {
   color: black;
   font-size: 0.85rem;
   font-weight: normal;
   margin: 18px 0;
 }
 
-.article-link:hover {
+.story-link:hover {
   text-decoration: none;
 }
 
-.article-hostname:hover {
+.story-hostname:hover {
   text-decoration: underline;
 }
 
-.article-author {
+.story-author {
   margin-top: 5px;
   margin-left: 25px;
 }
 
-.article-username {
+.story-username {
   display: block;
   margin-top: 5px;
   margin-left: 25px;
 }
 
-#favorited-articles,
-#filtered-articles,
-#my-articles {
+#favorited-stories,
+#filtered-stories,
+#my-stories {
   list-style: none;
   padding-left: 20px;
 }

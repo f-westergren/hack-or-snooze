@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
     crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="shortcut icon" href="y18.gif" />
 </head>
 
 <body>
@@ -25,7 +26,7 @@
       <small>(logout)</small>
     </a>
   </nav>
-  <section class="articles-container container">
+  <section class="stories-container container">
     <form action="" class="hidden" id="submit-form">
       <div>
         <label for="author">author</label>
@@ -33,36 +34,36 @@
       </div>
       <div>
         <label for="title">title</label>
-        <input id="title" required type="text" placeholder="article title">
+        <input id="title" required type="text" placeholder="story title">
       </div>
       <div>
         <label for="url">url</label>
-        <input id="url" required type="url" placeholder="article url">
+        <input id="url" required type="url" placeholder="story url">
       </div>
       <button type="submit">submit</button>
       <hr>
     </form>
     <article>
-      <ol id="all-articles-list" class="articles-list">
+      <ol id="all-stories-list" class="stories-list">
         <h3>Loading...</h3>
       </ol>
     </article>
     <article>
-      <ul id="favorited-articles" class="hidden articles-list">
+      <ul id="favorited-stories" class="hidden stories-list">
       </ul>
     </article>
     <article>
-      <ul id="filtered-articles" class="hidden articles-list">
+      <ul id="filtered-stories" class="hidden stories-list">
       </ul>
     </article>
     <article>
-      <ul id="my-articles" class="hidden articles-list">
+      <ul id="my-stories" class="hidden stories-list">
       </ul>
     </article>
   </section>
-  <section class="edit-article-container container">
-    <form action="#" id="edit-article-form" class="hidden" method="post">
-      <h4>Article Information</h4>
+  <section class="edit-story-container container">
+    <form action="#" id="edit-story-form" class="hidden" method="post">
+      <h4>Story Information</h4>
       <div class="edit-input">
         <label for="edit-title">Title</label>
         <input id="edit-title" type="text">
