@@ -30,7 +30,6 @@ a:hover {
   text-decoration: underline;
 }
 
-
 .hidden {
   display: none;
 }
@@ -143,9 +142,7 @@ form > hr {
   cursor: pointer;
 }
 
-.star,
-.trash-can,
-.pencil {
+.star, .trash-can {
   font-size: 0.75rem;
   margin: 0 2px;
   cursor: pointer;
@@ -153,10 +150,6 @@ form > hr {
 
 .trash-can:hover {
   color: crimson;
-}
-
-.pencil:hover {
-  color: darkblue;
 }
 
 .story-link > strong {
@@ -185,9 +178,7 @@ form > hr {
   margin-left: 25px;
 }
 
-#favorited-stories,
-#filtered-stories,
-#my-stories {
+#favorited-stories, #my-stories {
   list-style: none;
   padding-left: 20px;
 }
@@ -209,6 +200,10 @@ form > hr {
   margin: 10px 0;
 }
 
+#login-error, #create-account-error {
+  font-size: 0.75rem;
+  text-align: center;
+}
 
 /** responsive queries for tightening things up for mobile. */
 
