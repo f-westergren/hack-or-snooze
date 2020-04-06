@@ -18,13 +18,6 @@ $(async function () {
   // global currentUser variable
   let currentUser = null;
 
-  // function for showing elements
-  const show = ($element) => {
-    if ($element.is(":hidden")) {
-      $element.show();
-    }
-  };
-
   // function for rendering multiple stories
   const createStoryHTML = ($element, storyList) => {
     for (let story of storyList) {
@@ -35,7 +28,6 @@ $(async function () {
 
   await checkIfLoggedIn();
 
-
   //Event listener for logging in. If successful will setup the user instance
 
   $loginForm.on("submit", async function (evt) {
@@ -44,7 +36,6 @@ $(async function () {
     // grab the username and password
     const username = $("#login-username").val();
     const password = $("#login-password").val();
-
     
     try {
       // call the login static method to build a user instance
@@ -105,7 +96,7 @@ $(async function () {
     await getCurrentUser();
     await generateFavorites();
     hideElements();
-    show($favoritedStories);
+    $favoritedStories.show();
   });
 
   $navUserStories.on("click", async function () {
@@ -113,13 +104,13 @@ $(async function () {
     await generateUserStories();
     hideElements();
     $userStories.find(".fa-trash-alt").show(); // show trash icon when going to 'my stories'
-    show($userStories);
+    $userStories.show();
   });
 
   $navSubmit.on("click", function () {
     hideElements();
     $submitForm.slideToggle();
-    show($allStoriesList);
+    $allStoriesList.show();
   });
 
   $submitForm.on("submit", async function (evt) {
@@ -143,7 +134,7 @@ $(async function () {
   $("body").on("click", "#nav-all", async function () {
     hideElements();
     await generateStories();
-    show($allStoriesList);
+    $allStoriesList.show();
   });
 
   // Event handler for clicking on star or trash icon
@@ -297,8 +288,8 @@ $(async function () {
   function showNavForLoggedInUser() {
     $navLogin.hide();
     $navLogOut.show();
-    show($(".nav-left"));
-    show($("#nav-welcome"));
+    $(".nav-left").show();
+    $("#nav-welcome").show();
     $("#nav-user-profile").html(`<b>${currentUser.username}</b>`);
   }
 
