@@ -25,6 +25,10 @@ class StoryList {
   static async getStories() {
     const response = await axios.get(`${BASE_URL}/stories`)
 
+    if (!response.data.stories || !Array.isArray(response.data.stories)) {
+      throw new Error('Invalid data from server')
+    }
+
     // turn the plain old story objects from the API into instances of the Story class
     const stories = response.data.stories.map((story) => new Story(story))
 
@@ -146,11 +150,13 @@ class User {
     return existingUser
   }
 
-  static async removeFavorite(token, username, storyId) {
-    await axios.delete(`${BASE_URL}/users/${username}/favorites/${storyId}`, {params: {token}})}
+  async removeFavorite(storyId) {
 
-  static async addFavorite(token, username, storyId) {
-    const response = await axios.post(`${BASE_URL}/users/${username}/favorites/${storyId}`, {token: token})
+    const token = this.loginToken
+    await axios.delete(`${BASE_URL}/users/${this.username}/favorites/${storyId}`, {params: {token}})}
+
+  async addFavorite(storyId) {
+    const response = await axios.post(`${BASE_URL}/users/${this.username}/favorites/${storyId}`, {token: this.loginToken})
 
     return response
   }

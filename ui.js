@@ -7,9 +7,6 @@ $(async function () {
   const $createAccountForm = $("#create-account-form");
   const $navLogin = $("#nav-login");
   const $navLogOut = $("#nav-logout");
-  const $navSubmit = $("#nav-submit");
-  const $navFavorites = $("#nav-favorites");
-  const $navUserStories = $("#nav-my-stories");
   const $userProfileInfo = $("#user-profile");
 
   // global storyList variable
@@ -19,11 +16,73 @@ $(async function () {
   let currentUser = null;
 
   await checkIfLoggedIn();
+  console.log('hias')
 
-  //Event listener for logging in. If successful will setup the user instance
+  // Event handler for the navbar links
+  $('.nav-link').on("click", async function () {
+    await getCurrentUser()
+    hideElements()
 
-  $loginForm.on("submit", async function (evt) {
-    evt.preventDefault(); 
+    const navId = $(this).attr('id')
+
+    if (navId === 'nav-logout') {
+      navLogOut()
+    } else if (navId === 'nav-login') {
+      navLogIn()
+    } else if (navId === 'nav-favorites') {
+      showFavorites()
+    } else if (navId === 'nav-my-stories') {
+      showUserStories()
+    } else if (navId === 'nav-all') {
+      showAllStories()
+    } else if (navId === 'nav-submit') {
+      showSubmitForm()
+    }
+  })
+  
+  // Functions for the navbar event handlers
+  function navLogOut () {
+    // empty out local storage
+    localStorage.clear();
+    // refresh the page, clearing memory
+    location.reload();    
+  }
+
+  function navLogIn () {
+    $loginForm.slideToggle();
+    $createAccountForm.slideToggle();
+  }
+
+  async function showFavorites() {
+    await getCurrentUser();
+    await generateFavorites();
+    hideElements();
+    $favoritedStories.show();
+  }
+
+  async function showUserStories() {
+    await generateUserStories();
+    $userStories.find(".fa-trash-alt").show(); // show trash icon when going to 'my stories'
+    $userStories.show();
+  }
+
+  async function showAllStories() {
+    await generateStories();
+    $allStoriesList.show();
+  }
+
+  function showSubmitForm() {
+    $submitForm.slideToggle();
+    $allStoriesList.show();
+  }
+  
+  //Event listeners for logging in, creating new account, and submitting new story
+  $loginForm.on("submit", (e) => userLogin(e)) 
+  $createAccountForm.on("submit", (e) => createAccountForm(e)) 
+  $submitForm.on("submit", (e) => submitNewStory(e)) 
+  
+  async function userLogin (e) {
+    e.preventDefault(); 
 
     // grab the username and password
     const username = $("#login-username").val();
@@ -41,15 +100,10 @@ $(async function () {
     } catch (e) {
       createErrorMessage($('#login-error'), 'Login failed.')
     }
-  });
+  }
 
-  /**
-   * Event listener for signing up.
-   *  If successfully we will setup a new user instance
-   */
-
-  $createAccountForm.on("submit", async function (evt) {
-    evt.preventDefault(); // no page refresh
+  async function createAccountForm (e) {
+    e.preventDefault(); // no page refresh
 
     // grab the required fields
     let name = $("#create-account-name").val();
@@ -65,48 +119,10 @@ $(async function () {
     } catch (e) {
       createErrorMessage($('#create-account-error'), 'Username already exists.')
     }
-  });
+  }
 
-
-  // Event handlers for the navbar
-
-  $navLogOut.on("click", function () {
-    // empty out local storage
-    localStorage.clear();
-    // refresh the page, clearing memory
-    location.reload();
-  });
-
-  $navLogin.on("click", function () {
-    // Show the Login and Create Account Forms
-    hideElements();
-    $loginForm.slideToggle();
-    $createAccountForm.slideToggle();
-  });
-
-  $navFavorites.on("click", async function () {
-    await getCurrentUser();
-    await generateFavorites();
-    hideElements();
-    $favoritedStories.show();
-  });
-
-  $navUserStories.on("click", async function () {
-    await getCurrentUser();
-    await generateUserStories();
-    hideElements();
-    $userStories.find(".fa-trash-alt").show(); // show trash icon when going to 'my stories'
-    $userStories.show();
-  });
-
-  $navSubmit.on("click", function () {
-    hideElements();
-    $submitForm.slideToggle();
-    $allStoriesList.show();
-  });
-
-  $submitForm.on("submit", async function (evt) {
-    evt.preventDefault();
+  async function submitNewStory (e) {
+    e.preventDefault();
 
     // grab the required fields
     let user = currentUser.loginToken;
@@ -120,34 +136,30 @@ $(async function () {
     await StoryList.addStory(user, newStory);
     generateStories();
     createAndSubmitForm();
-  });
+  }
 
-  // Event handler for Navigation to Homepage
-  $("body").on("click", "#nav-all", async function () {
+  async function removeStoryInstance (token, storyId) {
+    await StoryList.removeStory(token, storyId);
     hideElements();
     await generateStories();
     $allStoriesList.show();
-  });
+  }
 
   // Event handler for clicking on star or trash icon
   $("body").on("click", "i", async function (evt) {
     evt.preventDefault();
 
     const token = currentUser.loginToken;
-    const user = currentUser.username;
     const storyId = $(this).parent().attr("id");
 
     if ($(this).attr("class") === "far fa-star") { // If clicked on an outlined star, add favorite and change icon to filled star
-      await User.addFavorite(token, user, storyId);
+      currentUser.addFavorite(storyId);
       $(this).attr("class", "fas fa-star");
     } else if ($(this).attr("class") === "fas fa-star") { // If clicked on a filled star, remove favorite and change icon to outlined star
-      await User.removeFavorite(token, user, storyId);
+      currentUser.removeFavorite(storyId);
       $(this).attr("class", "far fa-star");
     } else if ($(this).attr("id") === `trash-${storyId}`) { // If clicked on trash can, delete story and go back to main page
-      await StoryList.removeStory(token, storyId);
-      hideElements();
-      await generateStories();
-      $allStoriesList.show();
+      removeStoryInstance(token, storyId)
     }
   });
 
