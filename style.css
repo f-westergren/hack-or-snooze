@@ -141,7 +141,7 @@ form > hr {
   margin: 10px 0;
 }
 
-.star, .trash-can {
+.fa-star, .fa-trash-alt {
   font-size: 0.75rem;
   margin: 0 2px;
   cursor: pointer;
