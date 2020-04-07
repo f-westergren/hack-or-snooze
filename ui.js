@@ -18,14 +18,6 @@ $(async function () {
   // global currentUser variable
   let currentUser = null;
 
-  // function for rendering multiple stories
-  const createStoryHTML = ($element, storyList) => {
-    for (let story of storyList) {
-      const result = generateStoryHTML(story);
-      $element.append(result);
-    }
-  };
-
   await checkIfLoggedIn();
 
   //Event listener for logging in. If successful will setup the user instance
@@ -237,6 +229,14 @@ $(async function () {
       $userStories.append("<p>You have not submitted any stories.</p>");
     }
   }
+
+  // function for rendering multiple stories
+  function createStoryHTML ($element, storyList) {
+    for (let story of storyList) {
+      const result = generateStoryHTML(story);
+      $element.append(result);
+    }
+  };  
 
   // A function to render HTML for an individual Story instance
   function generateStoryHTML(story) {

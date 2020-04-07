@@ -139,7 +139,6 @@ form > hr {
   color: gray;
   font-size: 0.8rem;
   margin: 10px 0;
-  cursor: pointer;
 }
 
 .star, .trash-can {
@@ -164,7 +163,7 @@ form > hr {
 }
 
 .story-hostname:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .story-author {

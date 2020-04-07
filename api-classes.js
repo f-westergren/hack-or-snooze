@@ -16,14 +16,13 @@ class StoryList {
    *  - calls the API
    *  - builds an array of Story instances
    *  - makes a single StoryList instance out of that
-   *  - returns the StoryList instance.*
+   *  - returns the StoryList instance.
    */
 
   // Because once it fetches a new story that needs to be added by the class itself, so this
   // needs to be a method of the whole class, rather than a method of an individual storylist?
 
   static async getStories() {
-    // query the /stories endpoint (no auth required)
     const response = await axios.get(`${BASE_URL}/stories`)
 
     // turn the plain old story objects from the API into instances of the Story class
